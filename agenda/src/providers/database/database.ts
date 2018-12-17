@@ -31,7 +31,7 @@ export class DatabaseProvider {
             this.storage.get('database_filled').then(val => {
               if (val) {
              this.databaseReady.next(true);
-             // this.fillDatabase();
+              // this.fillDatabase();
               } else {
                 this.fillDatabase();
               }
@@ -54,9 +54,11 @@ export class DatabaseProvider {
         });
      }
 
-     addEvent(title, type, startTime, endTime, allDay , adresse) {
-       let data = [title , type, startTime, endTime , allDay, adresse];
-       return this.database.executeSql("INSERT INTO evenements(title, type, startTime, endTime , allDay, adresse) VALUES (?, ?, ?, ?, ?, ?)", data).then(data => {
+     addEvent(title, type, startTime, endTime, allDay , adresse, image) {
+       let data = [title , type, startTime, endTime , allDay, adresse, image];
+       console.log("data du addEvent");
+       console.log(data);
+       return this.database.executeSql("INSERT INTO evenements(title, type, startTime, endTime , allDay, adresse, image) VALUES (?, ?, ?, ?, ?, ?, ?)", data).then(data => {
          return data;
        }, err => {
          console.log('Error: l61', err);
@@ -67,6 +69,9 @@ export class DatabaseProvider {
      getAllEvents() {
     return this.database.executeSql("SELECT * FROM evenements", []).then((data) => {
       let events = [];
+
+      console.log("events :");
+      console.log(events);
 
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
@@ -80,7 +85,7 @@ export class DatabaseProvider {
 
           let start_Time = new Date(data.rows.item(i).startTime);
           let end_Time = new Date(data.rows.item(i).endTime);
-          events.push({ title: data.rows.item(i).title, type: data.rows.item(i).type, startTime: start_Time, endTime: end_Time, allDay: all_day, adresse: data.rows.item(i).adresse /* latitude: data.rows.item(i).latitude, longitude: data.rows.item(i).longitude */ });
+          events.push({ title: data.rows.item(i).title, type: data.rows.item(i).type, startTime: start_Time, endTime: end_Time, allDay: all_day, adresse: data.rows.item(i).adresse, image: data.rows.item(i).image });
         }
       }
       return events;

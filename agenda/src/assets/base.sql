@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS evenements (
   startTime Date ,
   endTime Date,
   allDay VARCHAR(32),
-adresse VARCHAR(60));
+adresse VARCHAR(60),
+image VARCHAR(255));
 /*
 INSERT INTO evenements (title, type , startTime, endTime) VALUES ('dentiste' , 'rdv' ,'2018-10-25 15:00' , '2018-10-28 15:30' );
 INSERT INTO evenements (title, type , startTime, endTime) VALUES ('soireejb' , 'soiree' ,'2018-10-28 20:00' , '2018-10-28 23:00' );

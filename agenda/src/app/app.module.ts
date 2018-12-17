@@ -14,16 +14,19 @@ import { HttpModule } from '@angular/http';
 
 import { DatabaseProvider } from '../providers/database/database';
 
+// import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
-import { Base64 } from '@ionic-native/base64';
-
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
-import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
+import { File } from '@ionic-native/file';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 
 
 @NgModule({
@@ -50,10 +53,10 @@ import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResul
     SQLite,
     SplashScreen,
     LocalNotifications,
-    NativeGeocoder,
     LaunchNavigator,
     Camera,
-    Base64,
+    File,
+
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider
   ]

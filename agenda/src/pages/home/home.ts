@@ -3,8 +3,8 @@ import { NavController, ModalController, AlertController } from 'ionic-angular';
 import * as moment from 'moment';
 // import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { DatabaseProvider } from './../../providers/database/database';
-import { Platform } from 'ionic-angular';
-import { SQLitePorter } from '@ionic-native/sqlite-porter';
+// import { Platform } from 'ionic-angular';
+// import { SQLitePorter } from '@ionic-native/sqlite-porter';
 // import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 //import { BehaviorSubject } from 'rxjs/Rx';
@@ -12,6 +12,8 @@ import 'rxjs/add/operator/map';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 // import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
+import { normalizeURL } from 'ionic-angular';
+
 
 @Component({
   selector: 'page-home',
@@ -31,7 +33,7 @@ export class HomePage {
 
 
 
-  constructor( private launchNavigator: LaunchNavigator, private databaseprovider: DatabaseProvider, private platform: Platform , public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController, public localNotifications: LocalNotifications) {
+  constructor( private databaseprovider: DatabaseProvider, public navCtrl: NavController, private modalCtrl: ModalController, public localNotifications: LocalNotifications) {
 
 
 
@@ -53,7 +55,7 @@ export class HomePage {
         eventData.startTime = new Date(data.startTime);
         eventData.endTime = new Date(data.endTime);
 
-        this.databaseprovider.addEvent(eventData.title, eventData.type, eventData.startTime, eventData.endTime, eventData.allDay, /*latitude_, longitude_  */ eventData.adresse)
+        this.databaseprovider.addEvent(eventData.title, eventData.type, eventData.startTime, eventData.endTime, eventData.allDay, eventData.adresse , eventData.image)
          .then(data => {
            this.loadEventData();
          });
@@ -79,7 +81,7 @@ export class HomePage {
         });
     });
   }
-
+/*
   Localiser(adresse) {
     this.launchNavigator.navigate(adresse)
     .then(
@@ -87,6 +89,7 @@ export class HomePage {
       error => console.log('Error launching navigator', error)
     );
   }
+  */
 
 
   onViewTitleChanged(title) {
@@ -94,13 +97,28 @@ export class HomePage {
   }
 
   onEventSelected(event) {
-    let start = moment(event.startTime).format('LLLL');
-    let end = moment(event.endTime).format('LLLL');
+
+    event.startTime = event.endTime.toLocaleString('fr-FR');
+    event.endTime = event.endTime.toLocaleString('fr-FR');
 
 
+  //   event.startTime = moment(event.startTime).format('LLLL');
+  //   event.endTime = moment(event.endTime).format('LLLL');
+
+
+
+  //  let modal = this.modalCtrl.create('ViewEventPage', {});
+
+
+  console.log(event);
+
+  let eventView = this.modalCtrl.create('EventViewPage', event);
+    eventView.present();
+
+/*
     let alert = this.alertCtrl.create({
       title: '' + event.title,
-      subTitle: 'From: <br>' + start + '<br>To: <br>' + end + '<br> adresse : '+ event.adresse,
+      subTitle: 'From: <br>' + start + '<br>To: <br>' + end + '<br> adresse : '+ event.adresse + '',
       buttons: [{
         text:'Localiser',
         handler: () => {
@@ -110,6 +128,8 @@ export class HomePage {
       'OK'
     ]});
     alert.present();
+    */
+
   }
 
 
